@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>30 AI Workflows for Program Managers — Boost</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink: #0d1526;
+    --paper: #edeae0;
+    --green: #0281F9;
+    --green-light: #e6f0fe;
+    --green-mid: #0281F9;
+    --accent: #0281F9;
+    --muted: #7a8099;
+    --border: rgba(13,21,38,0.1);
+    --card: #ffffff;
+    --gradient: linear-gradient(135deg, #0281F9, #0281F9);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 40px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .nav-logo span { color: var(--green); }
+  .nav-pill {
+    font-size: 12px;
+    font-weight: 500;
+    color: #0281F9;
+    background: #e6f0fe;
+    padding: 5px 14px;
+    border-radius: 100px;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 100px 40px 72px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--green);
+    margin-bottom: 24px;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block; width: 24px; height: 1px; background: var(--green);
+  }
+  .hero-eyebrow::after {
+    content: ''; display: block; width: 24px; height: 1px; background: var(--green);
+  }
+  .hero-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(42px, 5.5vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 20px;
+    max-width: 720px;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--green);
+  }
+  .hero-body {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 28px;
+    background: var(--gradient);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    margin-bottom: 48px;
+  }
+  .hero-cta:hover { opacity: 0.88; }
+  .hero-stats {
+    display: flex; gap: 48px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .stat-item { text-align: center; }
+  .stat-val {
+    font-family: 'Instrument Serif', serif;
+    font-size: 36px;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* UNUSED FORM STYLES REMOVED */
+  .includes-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .include-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 13px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .include-dot {
+    width: 18px; height: 18px;
+    background: var(--green-light);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .include-dot svg { width: 10px; height: 10px; }
+
+  /* SUCCESS STATE */
+  .success-state {
+    display: none;
+    text-align: center;
+    padding: 20px 0;
+  }
+  .success-icon {
+    width: 52px; height: 52px;
+    background: var(--green-light);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+  }
+  .success-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .success-body { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+  .audit-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 12px 24px;
+    background: var(--green);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .audit-btn:hover { background: #155c3e; }
+
+  /* SOCIAL PROOF STRIP */
+  .proof-strip {
+    background: var(--ink);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    overflow: hidden;
+  }
+  .proof-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .proof-items {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .proof-item {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    white-space: nowrap;
+  }
+
+  /* WORKFLOW SECTION */
+  .section { padding: 80px 40px; }
+  .section-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 36px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .section-title em { font-style: italic; color: var(--green); }
+  .section-count { font-size: 13px; color: var(--muted); }
+
+  /* PHASE FILTER */
+  .phase-filter {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .phase-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .phase-btn:hover { border-color: #0281F9; color: #0281F9; }
+  .phase-btn.active {
+    background: var(--gradient);
+    border-color: transparent;
+    color: white;
+  }
+
+  /* WORKFLOW CARDS */
+  .phase-group { margin-bottom: 40px; }
+  .phase-label {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .phase-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  .phase-label-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+  .wf-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+  }
+  .wf-card {
+    background: transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    height: 260px;
+    perspective: 1000px;
+  }
+  .wf-card:hover .wf-card-front { border-color: #0281F9; }
+  .wf-card-inner {
+    position: relative;
+    width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+  }
+  .wf-card.flipped .wf-card-inner { transform: rotateY(180deg); }
+  .wf-card-front, .wf-card-back {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .wf-card-front {
+    background: var(--card);
+    border: 1px solid var(--border);
+  }
+  .wf-card-back {
+    transform: rotateY(180deg);
+    background: var(--ink);
+    color: white;
+  }
+  .wf-back-title {
+    font-size: 12px; font-weight: 500; color: white;
+    margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .wf-back-steps { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .wf-back-step { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: rgba(255,255,255,0.8); line-height: 1.5; }
+  .wf-back-step-num {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: #0281F9; color: white;
+    font-size: 10px; font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .wf-back-footer {
+    margin-top: 12px; padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 10px; color: rgba(255,255,255,0.4);
+  }
+  .flip-hint {
+    font-size: 10px; color: var(--muted);
+    display: flex; align-items: center; gap: 4px;
+    margin-top: auto; padding-top: 8px;
+  }
+  .wf-card-top {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .wf-num {
+    font-size: 11px;
+    font-weight: 500;
+    color: #0281F9;
+    font-variant-numeric: tabular-nums;
+  }
+  .effort-tag {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 9px;
+    border-radius: 100px;
+  }
+  .effort-low { background: #e6f0fe; color: #0281F9; }
+  .effort-med { background: #fef3e2; color: #9a6200; }
+  .wf-card-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .wf-card-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .wf-card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .tool-tag {
+    font-size: 10px;
+    color: var(--muted);
+    background: var(--paper);
+    padding: 2px 8px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+  }
+  .wf-source-note {
+    font-size: 10px;
+    color: rgba(107,112,104,0.6);
+  }
+
+  /* BOTTOM CTA */
+  .bottom-cta {
+    background: var(--ink);
+    padding: 80px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .bcta-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 40px;
+    color: white;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .bcta-title em { font-style: italic; color: #0281F9; }
+  .bcta-body {
+    font-size: 15px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 16px;
+    line-height: 1.7;
+  }
+  .bcta-right { display: flex; flex-direction: column; gap: 16px; }
+  .bcta-point {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+  }
+  .bcta-point-icon {
+    width: 32px; height: 32px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+  .bcta-point-text { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5; }
+  .bcta-point-title { font-size: 13px; font-weight: 500; color: white; margin-bottom: 3px; }
+  .bcta-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 28px;
+    background: var(--gradient);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    align-self: flex-start;
+    margin-top: 8px;
+  }
+  .bcta-btn:hover { opacity: 0.9; }
+
+  /* FOOTER */
+  footer {
+    padding: 24px 40px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px; color: var(--muted);
+  }
+  .footer-logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 18px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--green); }
+
+  /* SCROLL INDICATOR */
+  .scroll-indicator {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    cursor: pointer; margin-bottom: 40px;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  .scroll-indicator:hover { color: var(--ink); }
+  .scroll-arrow {
+    animation: bounce 1.8s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(5px); }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero > * {
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+  }
+  .hero > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero > *:nth-child(4) { animation-delay: 0.4s; }
+  .hero > *:nth-child(5) { animation-delay: 0.5s; }
+
+  @keyframes dotpulse {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 14px 20px; }
+    .hero { padding: 80px 20px 48px; }
+    .hero-stats { gap: 28px; }
+    .section { padding: 48px 20px; }
+    .bottom-cta { grid-template-columns: 1fr; padding: 48px 20px; gap: 32px; }
+    .proof-strip { padding: 16px 20px; gap: 20px; }
+    footer { padding: 20px; flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span style="font-size:12px;color:var(--muted);">Built with ❤️ by the small team at Boost</span>
+  <div class="nav-pill">Free resource</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">For startup program managers</div>
+  <h1 class="hero-title">30 AI workflows to <em>supercharge</em> your program</h1>
+  <p class="hero-body">Every phase of your program — from first application to alumni follow-up — can be powered up with AI. No technical background needed. Just better outcomes for your founders.</p>
+  <a href="https://calendar.app.google/SjxyNtze7KnzwQdz6" target="_blank" class="hero-cta">
+    Get a free audit
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+  <div class="scroll-indicator" onclick="document.getElementById('workflows').scrollIntoView({behavior:'smooth'})">
+    <span style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);">Scroll to explore</span>
+    <div class="scroll-arrow">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v14M4 11l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-val">30</div>
+      <div class="stat-label">Ready-to-use workflows</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val">5</div>
+      <div class="stat-label">Program phases covered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val">~$0</div>
+      <div class="stat-label">Tool cost to start</div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- WORKFLOW FINDER -->
+<section class="section" id="finder" style="background: var(--ink); padding: 80px 40px;">
+  <div style="max-width: 680px; margin: 0 auto;">
+    <div style="text-align:center; margin-bottom: 40px;">
+      <div style="font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#0281F9;margin-bottom:12px;">Personalised for you</div>
+      <h2 style="font-family:'Instrument Serif',serif;font-size:36px;color:white;line-height:1.1;letter-spacing:-0.02em;margin-bottom:12px;">Find your best workflows</h2>
+      <p style="font-size:15px;color:rgba(255,255,255,0.5);line-height:1.7;">Tell us what's going on in your program right now and we'll recommend the workflows that fit — with a ready-to-copy Claude prompt for each one.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;">
+      <label style="display:block;font-size:12px;font-weight:500;color:rgba(255,255,255,0.5);letter-spacing:0.04em;margin-bottom:10px;">What's happening in your program right now?</label>
+      <textarea id="finder-input" placeholder="e.g. I'm running a 12-week accelerator and struggling to keep track of which founders are falling behind. I do 1:1s every week but go in without much prep and feel like I'm missing things..." style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;color:white;line-height:1.6;resize:vertical;min-height:110px;outline:none;" onfocus="this.style.borderColor='#0281F9'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'"></textarea>
+      <button id="finder-btn" onclick="runFinder()" style="margin-top:12px;width:100%;padding:13px;background:linear-gradient(135deg,#0281F9,#0163c4);color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity 0.2s;">
+        Find my workflows
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <div id="finder-loading" style="display:none;text-align:center;padding:32px 0;">
+      <div style="font-size:13px;color:rgba(255,255,255,0.4);">Finding your best workflows...</div>
+      <div style="margin-top:12px;display:flex;justify-content:center;gap:6px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#0281F9;animation:dotpulse 1.2s ease-in-out infinite;"></span>
+        <span style="width:6px;height:6px;border-radius:50%;background:#0281F9;animation:dotpulse 1.2s ease-in-out infinite 0.2s;"></span>
+        <span style="width:6px;height:6px;border-radius:50%;background:#0281F9;animation:dotpulse 1.2s ease-in-out infinite 0.4s;"></span>
+      </div>
+    </div>
+
+    <div id="finder-results" style="display:none;margin-top:28px;flex-direction:column;gap:16px;"></div>
+  </div>
+</section>
+
+<!-- WORKFLOW LIBRARY -->
+<section class="section" id="workflows">
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">The full workflow <em>library</em></h2>
+      <p style="font-size:14px;color:var(--muted);margin-top:8px;">Click any phase to filter. Every workflow is implementable without a technical team.</p>
+    </div>
+    <div class="section-count" id="wf-count">30 workflows</div>
+  </div>
+
+  <div class="phase-filter">
+    <button class="phase-btn active" onclick="filterWF('all',this)">All phases</button>
+    <button class="phase-btn" onclick="filterWF('before',this)">Before the program</button>
+    <button class="phase-btn" onclick="filterWF('during',this)">During the program</button>
+    <button class="phase-btn" onclick="filterWF('after',this)">After the program</button>
+    <button class="phase-btn" onclick="filterWF('ops',this)">Ops & reporting</button>
+    <button class="phase-btn" onclick="filterWF('network',this)">Network & capital</button>
+  </div>
+
+  <div id="wf-output"></div>
+</section>
+
+<!-- BOTTOM CTA -->
+<section class="bottom-cta" id="audit">
+  <div>
+    <h2 class="bcta-title">Ready to see which of these <em>fit your program?</em></h2>
+    <p class="bcta-body">Book a free 30-minute audit with the Boost team. We'll review your current program workflow and show you exactly where AI can save time, improve founder outcomes, and make your reporting shine.</p>
+    <a href="https://calendar.app.google/SjxyNtze7KnzwQdz6" target="_blank" class="bcta-btn" style="margin-top:28px;">
+      Book my free audit
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+  <div class="bcta-right">
+    <div class="bcta-point">
+      <div class="bcta-point-icon">⚡</div>
+      <div>
+        <div class="bcta-point-title">30-minute session</div>
+        <div class="bcta-point-text">We map your current workflow and identify the 3 highest-impact AI opportunities specific to your program.</div>
+      </div>
+    </div>
+    <div class="bcta-point">
+      <div class="bcta-point-icon">📋</div>
+      <div>
+        <div class="bcta-point-title">You get a written action plan</div>
+        <div class="bcta-point-text">After the call, we send a prioritized list of workflows to implement — with effort estimates and tool recommendations.</div>
+      </div>
+    </div>
+    <div class="bcta-point">
+      <div class="bcta-point-icon">🤝</div>
+      <div>
+        <div class="bcta-point-title">No pitch, no pressure</div>
+        <div class="bcta-point-text">The audit is genuinely free. If you want Boost to build and maintain it for you, great. If not, you keep the plan.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span style="font-size:13px;color:var(--muted);">Built with ❤️ by the small team at Boost</span>
+  <div>© 2026 Boost. Building the future of founder support.</div>
+  <div><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="680a0409030d280f0d1c0a07071b1c461c0d0b00">[email&#160;protected]</a></div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const phases = [
+  {
+    id: 'before', label: 'Before the program', color: '#534AB7',
+    workflows: [
+      { num:'01', title:'ICP definition assistant', desc:'Answer questions about your ideal founder and get a written ICP profile you can use across all marketing and screening.', effort:'Low', tools:'Claude', steps:['Open Claude and paste your program\'s mission and past cohort data','Ask: "Based on this, define my ideal founder profile across 5 dimensions"','Refine until it feels accurate, then save it as a reusable doc','Use it as your north star for all application and screening decisions'] },
+      { num:'02', title:'Program narrative generator', desc:'Turn your program\'s positioning into a clear one-pager — what you do, who it\'s for, and what founders actually get.', effort:'Low', tools:'Claude', steps:['Write a rough brain-dump of what your program does and who it helps','Paste into Claude with: "Turn this into a crisp program narrative one-pager"','Ask for variants — one for founders, one for partners, one for funders','Copy the best version into your website and outreach materials'] },
+      { num:'03', title:'Application form design', desc:'Generate a founder application tailored to your ICP and program goals — questions, order, and scoring criteria included.', effort:'Low', tools:'Tally + Claude', steps:['Share your ICP and program outcomes with Claude','Ask it to generate 12–15 application questions with scoring rationale','Build the form in Tally using Claude\'s suggested questions','Set up a webhook so submissions flow into your review pipeline'] },
+      { num:'04', title:'Application screening and scoring', desc:'Automatically score every inbound application against your criteria — rank strong fits, surface red flags, skip the spreadsheet.', effort:'Low', tools:'Tally + Claude', steps:['Connect your Tally form to a simple backend (Zapier or Make works)','On each submission, send the answers to Claude with your scoring rubric','Have Claude return a score, fit summary, and 2–3 flags','Log scores to Airtable for easy ranking and review'] },
+      { num:'05', title:'Founder fit memos', desc:'For shortlisted applicants, generate a 1-page fit memo covering team, market, stage alignment, and suggested interview questions.', effort:'Low', tools:'Claude', steps:['Take a shortlisted application and paste it into Claude','Ask: "Write a 1-page fit memo — team, market, risks, and interview questions"','Review the memo before the interview to prep your questions','File the memo in Notion or Airtable alongside the application'] },
+      { num:'06', title:'Outcome design workshop prep', desc:'Feed your program structure in, get AI-generated outcome milestones mapped to each week — design backwards from results.', effort:'Low', tools:'Claude', steps:['Define your end-of-program success criteria in plain language','Ask Claude to map milestones backwards week by week from that outcome','Review and adjust the milestone map with your team','Use it as the backbone for your session planning and check-ins'] },
+      { num:'07', title:'Marketing copy generator', desc:'Generate channel-specific copy for LinkedIn, email, and partner outreach based on your program narrative and ICP.', effort:'Low', tools:'Claude', steps:['Share your program narrative and ICP with Claude','Ask for copy variants: LinkedIn post, cold email, partner one-liner','Test 2–3 variants on your best-performing channel first','Refresh copy each cohort by updating the ICP inputs'] },
+      { num:'08', title:'Partner outreach drafts', desc:'Auto-draft personalized outreach to referral partners, universities, and ecosystem orgs based on your program positioning.', effort:'Low', tools:'Claude + Gmail', steps:['List 10 target partners with a note on why each is a fit','Share your program narrative and list with Claude','Ask it to draft a personalized cold outreach email for each partner','Send from Gmail and track replies in a simple spreadsheet'] },
+    ]
+  },
+  {
+    id: 'during', label: 'During the program', color: '#0F6E56',
+    workflows: [
+      { num:'09', title:'Founder journey roadmap', desc:'Each founder submits a check-in form and gets back a personalized roadmap of priorities, strengths, weaknesses, and a score.', effort:'Low', tools:'Tally + Claude', steps:['Build a 6–8 question check-in form in Tally covering stage, blockers, wins','Connect submissions to Claude via webhook (Zapier or Make)','Prompt Claude to return a roadmap, score, strengths, and weaknesses','Deliver the output back to the founder and PM dashboard automatically'] },
+      { num:'10', title:'Weekly cohort health digest', desc:'Every Monday, Claude reads all check-ins and delivers a PM digest — who\'s moving, who\'s stuck, who needs urgent attention.', effort:'Low', tools:'Tally + Claude + Slack', steps:['Set up a weekly Tally check-in that closes Sunday night','Trigger a Monday morning automation that batches all responses','Send the batch to Claude with a prompt to generate a cohort digest','Post the digest automatically to your team\'s Slack channel'] },
+      { num:'11', title:'Meeting prep briefs', desc:'Before every founder 1:1, auto-generate a brief from prior notes — what was discussed, current blocker, what to ask today.', effort:'Low', tools:'Claude + Notion', steps:['Keep founder notes in Notion with a consistent structure','Before each 1:1, copy recent notes and paste into Claude','Ask: "Give me a 1-page prep brief for this meeting"','Review the brief 10 minutes before the call — takes 2 minutes'] },
+      { num:'12', title:'Persistent blocker tracking', desc:'Claude flags when the same blocker appears for 2+ weeks and escalates the language in the digest — catch slow crises early.', effort:'Med', tools:'Tally + Claude', steps:['Add a "top blocker this week" field to your check-in form','Store blocker history per founder in Airtable','Each week, feed 4 weeks of blocker history into Claude','Ask it to flag any blocker appearing 2+ times and escalate language'] },
+      { num:'13', title:'AI co-pilot for support convos', desc:'During or after a founder meeting, paste your notes and get AI-generated next steps, resource recommendations, and talking points.', effort:'Low', tools:'Claude', steps:['After a founder meeting, jot rough notes in 2–3 sentences','Paste into Claude: "Here are my notes — give me next steps and resources"','Copy the output into your CRM or Notion founder record','Use the talking points to open your next conversation with context'] },
+      { num:'14', title:'Curriculum personalization', desc:'Based on each founder\'s journey gaps, recommend which workshops and resources are most relevant to them this week.', effort:'Med', tools:'Claude + Notion', steps:['Maintain a resource library in Notion with tags by topic','Each week, feed founder journey gaps into Claude with the library','Ask Claude to recommend the top 3 resources per founder gap','Surface recommendations in your cohort dashboard or via Slack DM'] },
+      { num:'15', title:'Mentor matching', desc:'Match founders to mentors based on journey gaps and growth stage — not just industry keywords.', effort:'Med', tools:'Claude + Airtable', steps:['Build an Airtable base with mentor profiles (expertise, availability, stage)','For each founder, summarize their current gaps and goals','Ask Claude to rank the top 3 mentor matches with a rationale','Send a warm intro email — Claude can draft it too'] },
+      { num:'16', title:'Small wins capture', desc:'Founders submit a quick weekly win, Claude synthesizes these into shareable content — Slack highlights, newsletter snippets, social posts.', effort:'Low', tools:'Tally + Claude', steps:['Add a "biggest win this week" field to your check-in form','Each Friday, batch all win submissions and send to Claude','Ask it to write a cohort wins highlight for Slack and a social post','Share the Slack highlight to celebrate momentum publicly'] },
+      { num:'17', title:'Adaptive program redesign prompts', desc:'When the cohort goes sideways, describe what\'s happening and get AI suggestions for how to restructure or re-engage.', effort:'Low', tools:'Claude', steps:['When something feels off, write a 1-paragraph description of the situation','Ask Claude: "Here\'s what\'s happening — what would you change and why?"','Pressure-test the suggestions with your team before acting','Use it as a thinking partner, not a final answer'] },
+      { num:'18', title:'Engagement drop-off alerts', desc:'Automatically flag founders who miss check-ins or show declining engagement scores before they fully disengage.', effort:'Med', tools:'Tally + Claude + Slack', steps:['Track check-in submission dates per founder in Airtable','Set a rule: flag anyone who misses 2 consecutive check-ins','Send the flagged list to Claude with context on each founder','Ask it to draft a personalized re-engagement message for each'] },
+    ]
+  },
+  {
+    id: 'after', label: 'After the program', color: '#993C1D',
+    workflows: [
+      { num:'19', title:'Off-boarding roadmap generator', desc:'Each founder gets a personalized "what\'s next" document — 90-day priorities, resources, and warm intros to pursue.', effort:'Low', tools:'Claude', steps:['Pull each founder\'s final journey score and top 3 remaining gaps','Feed into Claude: "Generate a 90-day post-program roadmap for this founder"','Include specific resources, intros, and milestones in the prompt','Deliver the doc in a graduation packet — digital or printed'] },
+      { num:'20', title:'Testimonial and case study drafts', desc:'After graduation, send a short form and Claude turns responses into polished testimonials and case study drafts.', effort:'Low', tools:'Tally + Claude', steps:['Send a short 4-question Tally form to graduates 2 weeks post-program','Feed responses into Claude: "Draft a testimonial and a case study"','Edit lightly and get founder approval before publishing','Use across your website, decks, and next cohort marketing'] },
+      { num:'21', title:'Alumni check-in digest', desc:'Quarterly alumni form plus AI summary — who raised, who hired, who needs a reintro to your network.', effort:'Low', tools:'Tally + Claude', steps:['Send a quarterly Tally check-in to all alumni (5 questions max)','Batch responses and send to Claude for a digest summary','Ask it to flag who raised, who\'s hiring, and who needs support','Share the digest with your team and use it to drive warm intros'] },
+      { num:'22', title:'Impact report generation', desc:'Feed in cohort data and Claude drafts a stakeholder-ready impact report — outcomes, quotes, metrics, and narrative arc.', effort:'Low', tools:'Claude', steps:['Compile your cohort metrics: jobs created, revenue, funding raised','Pull 3–5 founder quotes from testimonials or check-ins','Feed everything into Claude: "Draft an impact report for funders"','Review, brand it, and export as PDF for your annual report'] },
+      { num:'23', title:'Funder-ready data storytelling', desc:'Turn your raw program metrics into a compelling funding narrative tailored to the specific funder or LP you\'re pitching.', effort:'Low', tools:'Claude', steps:['Research the funder\'s stated priorities and past grants','Share your metrics and funder profile with Claude','Ask: "Reframe these metrics as a narrative for this specific funder"','Use the output as the spine of your pitch deck or grant application'] },
+      { num:'24', title:'Next cohort application insights', desc:'After each cohort, Claude analyzes which application signals predicted founder success — refine your screening for next time.', effort:'Med', tools:'Claude + Airtable', steps:['Export application data and final outcomes from Airtable','Feed to Claude: "Which application answers correlated with high performers?"','Use the insights to reweight your scoring rubric for next cohort','Update your Tally form questions to capture stronger signals'] },
+    ]
+  },
+  {
+    id: 'ops', label: 'Ops and reporting', color: '#5F5E5A',
+    workflows: [
+      { num:'25', title:'Cohort health dashboard', desc:'A live view of all founders — scores, flags, momentum trends, and action items — updated from weekly check-ins automatically.', effort:'Med', tools:'Tally + Claude + Airtable', steps:['Set up Airtable as your cohort database with one row per founder','Connect Tally check-ins via Zapier to update founder records weekly','Add a Claude step that generates a health score and flags per submission','Build a simple Airtable view filtered by health status for your team'] },
+      { num:'26', title:'Program calendar and session planner', desc:'Describe your cohort\'s needs and get a week-by-week session plan with topics, facilitators, and outcomes.', effort:'Low', tools:'Claude', steps:['List your program\'s outcomes and the number of weeks available','Share the cohort\'s common gaps from your initial check-ins','Ask Claude to generate a week-by-week session plan with topics and goals','Paste into Notion or Google Calendar and share with facilitators'] },
+      { num:'27', title:'Demo day feedback analyzer', desc:'Upload pitch decks and investor feedback forms, get structured analysis — what\'s landing, what\'s missing, who\'s ready.', effort:'Low', tools:'Claude + PDF', steps:['Collect feedback forms or notes from demo day investors','Upload pitch decks as PDFs and paste feedback into Claude','Ask: "What are the common strengths and gaps across these pitches?"','Share a summary report with founders and use it for final coaching'] },
+      { num:'28', title:'Founder survey synthesizer', desc:'Run mid-program NPS or satisfaction surveys and get an AI summary of themes, risks, and quick wins to address.', effort:'Low', tools:'Tally + Claude', steps:['Send a mid-program Tally survey (NPS + 3 open questions)','Export responses and paste into Claude','Ask: "Summarize the key themes, risks, and quick wins from this survey"','Share the summary with your team and act on at least one quick win that week'] },
+    ]
+  },
+  {
+    id: 'network', label: 'Network and capital', color: '#185FA5',
+    workflows: [
+      { num:'29', title:'Investor matching and intro drafts', desc:'Score each founder against your investor network\'s thesis, flag warm intro opportunities, and auto-draft the double opt-in email.', effort:'Med', tools:'Claude + Airtable + Gmail', steps:['Build an Airtable of your investor network with thesis and stage tags','For each fundraising founder, summarize their traction and ask','Feed both into Claude: "Rank which investors are best fits and why"','Use Claude to draft the double opt-in intro email for each match'] },
+      { num:'30', title:'Portfolio update digest', desc:'Founders submit monthly updates, Claude compiles a clean LP-ready digest — progress, asks, and highlights in one email.', effort:'Low', tools:'Tally + Claude', steps:['Send a monthly Tally update form to all portfolio founders','Batch submissions at month end and send to Claude','Ask: "Compile an LP update digest — highlights, asks, and metrics"','Review lightly and send to your LP list via email'] },
+    ]
+  }
+];
+
+let activePhase = 'all';
+
+function toggleFlip(cardEl) {
+  cardEl.classList.toggle('flipped');
+}
+
+function filterWF(phase, btn) {
+  activePhase = phase;
+  document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function render() {
+  const out = document.getElementById('wf-output');
+  const filtered = activePhase === 'all' ? phases : phases.filter(p => p.id === activePhase);
+  const total = filtered.reduce((a, p) => a + p.workflows.length, 0);
+  document.getElementById('wf-count').textContent = total + ' workflow' + (total !== 1 ? 's' : '');
+
+  out.innerHTML = filtered.map(phase => `
+    <div class="phase-group">
+      <div class="phase-label">
+        <span class="phase-label-dot" style="background:${phase.color}"></span>
+        ${phase.label}
+      </div>
+      <div class="wf-grid">
+        ${phase.workflows.map(w => `
+          <div class="wf-card" onclick="toggleFlip(this)">
+            <div class="wf-card-inner">
+              <div class="wf-card-front">
+                <div class="wf-card-top">
+                  <div class="wf-num">${w.num}</div>
+                  <span class="effort-tag effort-${w.effort.toLowerCase()}">${w.effort} effort</span>
+                </div>
+                <div class="wf-card-title">${w.title}</div>
+                <div class="wf-card-desc">${w.desc}</div>
+                <div class="wf-card-footer">
+                  <span class="tool-tag">${w.tools}</span>
+                </div>
+                <div class="flip-hint">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Click for quick-start guide
+                </div>
+              </div>
+              <div class="wf-card-back">
+                <div class="wf-back-title">
+                  Quick-start guide
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M10 6H2M6 10L2 6l4-4" stroke="rgba(255,255,255,0.5)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="wf-back-steps">
+                  ${w.steps.map((s, i) => `
+                    <div class="wf-back-step">
+                      <div class="wf-back-step-num">${i+1}</div>
+                      <span>${s}</span>
+                    </div>
+                  `).join('')}
+                </div>
+                <div class="wf-back-footer">Tools: ${w.tools} · Click to flip back</div>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+render();
+async function runFinder() {
+  const input = document.getElementById('finder-input').value.trim();
+  if (!input) { alert('Please describe what\'s going on in your program first.'); return; }
+
+  const btn = document.getElementById('finder-btn');
+  const loading = document.getElementById('finder-loading');
+  const results = document.getElementById('finder-results');
+
+  btn.style.opacity = '0.5';
+  btn.disabled = true;
+  loading.style.display = 'block';
+  results.style.display = 'none';
+  results.innerHTML = '';
+
+  const workflowList = phases.flatMap(p => p.workflows.map(w => ({
+    num: w.num, title: w.title, desc: w.desc, tools: w.tools, phase: p.label, steps: w.steps
+  })));
+
+  const prompt = `You are an expert advisor helping startup program managers find the right AI workflows.
+
+A program manager has described their situation. Recommend the 3-5 most relevant workflows from the list below.
+
+SITUATION: ${input}
+
+AVAILABLE WORKFLOWS:
+${workflowList.map(w => `${w.num}. ${w.title} (${w.phase}): ${w.desc} | Tools: ${w.tools}`).join('\n')}
+
+Return ONLY a valid JSON array. No markdown, no backticks, no explanation. Each object must have:
+- num: workflow number string e.g. "01"
+- title: workflow title
+- rationale: 1-2 sentences explaining why this fits their specific situation
+- claudePrompt: a 3-5 sentence ready-to-use prompt they can paste into Claude to get started, written specifically for their situation
+
+Example format: [{"num":"01","title":"...","rationale":"...","claudePrompt":"..."}]`;
+
+  try {
+    const response = await fetch('/.netlify/functions/recommend', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error?.message || 'API error');
+    }
+
+    const raw = data.content?.[0]?.text || '[]';
+    let recs;
+    try {
+      const cleaned = raw.replace(/```json|```/g, '').trim();
+      recs = JSON.parse(cleaned);
+    } catch(e) {
+      throw new Error('Could not parse recommendations');
+    }
+
+    loading.style.display = 'none';
+
+    if (!recs.length) {
+      results.innerHTML = '<p style="color:rgba(255,255,255,0.5);font-size:13px;text-align:center;padding:20px 0;">No recommendations found — try describing your situation in more detail.</p>';
+      results.style.display = 'flex';
+      btn.style.opacity = '1'; btn.disabled = false;
+      return;
+    }
+
+    results.innerHTML = recs.map((r, idx) => `
+      <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <span style="font-size:11px;font-weight:500;color:#0281F9;background:rgba(2,129,249,0.15);padding:2px 10px;border-radius:100px;">${r.num}</span>
+          <span style="font-size:14px;font-weight:500;color:white;">${r.title}</span>
+        </div>
+        <p style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:14px;">${r.rationale}</p>
+        <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:14px;margin-bottom:12px;">
+          <div style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Ready-to-paste Claude prompt</div>
+          <p id="cp-${idx}" style="font-size:12px;color:rgba(255,255,255,0.8);line-height:1.7;margin:0;white-space:pre-wrap;">${r.claudePrompt}</p>
+        </div>
+        <button id="cb-${idx}" onclick="copyPrompt(${idx})" style="font-size:12px;padding:7px 14px;background:transparent;border:1px solid rgba(255,255,255,0.2);border-radius:6px;color:rgba(255,255,255,0.7);cursor:pointer;display:inline-flex;align-items:center;gap:6px;" onmouseover="this.style.borderColor='#0281F9';this.style.color='white'" onmouseout="this.style.borderColor='rgba(255,255,255,0.2)';this.style.color='rgba(255,255,255,0.7)'">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="4" y="4" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M1 8V1h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Copy prompt
+        </button>
+      </div>
+    `).join('');
+
+    results.style.display = 'flex';
+
+  } catch(err) {
+    loading.style.display = 'none';
+    results.innerHTML = `<div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,80,80,0.3);border-radius:10px;padding:16px;text-align:center;">
+      <p style="color:rgba(255,150,150,0.9);font-size:13px;margin:0 0 6px;">Something went wrong: ${err.message}</p>
+      <p style="color:rgba(255,255,255,0.4);font-size:12px;margin:0;">Please try again or <a href="https://calendar.app.google/SjxyNtze7KnzwQdz6" target="_blank" style="color:#0281F9;">book a free audit</a> instead.</p>
+    </div>`;
+    results.style.display = 'flex';
+  }
+
+  btn.style.opacity = '1';
+  btn.disabled = false;
+}
+
+function copyPrompt(idx) {
+  const el = document.getElementById('cp-' + idx);
+  const btn = document.getElementById('cb-' + idx);
+  if (!el || !btn) return;
+  navigator.clipboard.writeText(el.textContent).then(() => {
+    btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Copied!';
+    btn.style.borderColor = '#0281F9';
+    btn.style.color = 'white';
+    setTimeout(() => {
+      btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="4" y="4" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M1 8V1h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg> Copy prompt';
+      btn.style.borderColor = 'rgba(255,255,255,0.2)';
+      btn.style.color = 'rgba(255,255,255,0.7)';
+    }, 2000);
+  });
+}
+
+</script>
+</body>
+</html>
